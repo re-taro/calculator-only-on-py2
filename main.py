@@ -29,3 +29,29 @@ class Operator:
         return other is None or \
             self.priority > other.priority or \
                 (self.priority in (Operator.P_FUN, Operator.P_POW, Operator.P_UPM) and self.priority == other.priority)
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return repr(self.name)
+
+    def  is_const(self):
+        return self.priority == Operator.P_CST
+
+    def is_lhb(self):
+        return self.priority == Operator.P_LHB
+    
+    def is_upm(self):
+        return self.priority == Operator.P_UPM
+
+    def is_func(self):
+        return self.priority == Operator.P_FUN
+
+    def is_unary(self):
+        return self.priority in (Operator.P_FUN, Operator.P_UPM)
+
+    def is_binary(self):
+        return self.priority in (Operator.P_POW, Operator.P_MD, Operator.P_BPM)
+
+    
