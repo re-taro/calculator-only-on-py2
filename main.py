@@ -204,3 +204,23 @@ def read_str(str):
     return _iter(str, [])
 
 
+if __name__ == '__main__':
+
+    interactive = len(sys.argv) > 1 and sys.argv[1] == '-i'
+    if interactive:
+        sys.stderr.write("Available operators and constants:\n" + \
+            ', '.join([str(op) for op in L_OP if not op.is_upm()]) + \
+                "\nq:quit\n\n")
+
+    while(1):
+        if interactive: sys.stderr.write('>')
+        str = sys.stdin.readline()
+        if str:
+            str = str.rstrip()
+            if interactive and str == 'q': break
+            try:
+                print(eval_ls(read_str(str)))
+            except Exception as strerror:
+                print('strerror')
+        else:
+            break
