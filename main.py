@@ -118,3 +118,7 @@ L_OP = [\
                                                                                                             Operator('e', math.e, Operator.P_CST), \
     ]
 
+
+H_OP = dict([(str(op), op) for op in L_OP])
+
+
