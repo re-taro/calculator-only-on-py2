@@ -178,3 +178,29 @@ def find_pair(s0):
         if n == 0: return i
     else:
         raise RuntimeError("Cannot find the close parenthesis!")
+
+
+def read_str(str):
+    def _iter(s, ls):
+        s = s.strip()
+        if(s):
+            obj = RE_FORM.match(s)
+            if obj and obj.group('nest'):
+                idx = find_pair(s)
+                return _iter(s[idx+1:], cons(_iter(s[1:idx], []), ls))
+            elif obj:
+                s1 = s[obj.end():]
+                if obj.group('num'):
+                    return _iter(s1, cons((float if obj.group('after_dot') else int)(obj.group('num')), ls))
+                else:
+                    op_name = obj.group('op_name')
+                    if op_name in '+-' and (not ls or (isinstance(ls[-1], Operator) and not ls[-1].is_lhb())):
+                        op_name = '@' + op_name
+                    return _iter(s1, cons(H_OP[op_name], ls))
+            else:
+                raise RuntimeError('Cannot parse input!')
+        else:
+            return ls
+    return _iter(str, [])
+
+
