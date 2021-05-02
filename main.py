@@ -151,3 +151,23 @@ def operator_position(ls):
     return term0, pos
 
 
+def eval_ls(ls):
+
+    if operator.isNumberType(ls): return ls
+    elif len(ls) == 1:
+        i = ls[0]
+        return eval_ls(i() if isinstance(i, Operator) else i)
+    else:
+        op, pos = operator_position(ls)
+        if op.is_const():
+            return eval_ls(cons(op(), ls[:pos]) + ls[pos+1:])
+        elif op.is_unary() and pos< len(ls)-1:
+            return eval_ls(cons(op(eval_ls(ls[pos-1])), ls[0:pos]) + ls[pos+2:])
+        elif op.is_lhb() and pos > 0:
+            return eval_ls(cons(op(eval_ls(ls[pos-1])), ls[0:pos-1]) + ls[pos+1:])
+        elif op.is_binary() and 0 < pos < len(ls) - 1:
+            return eval_ls(cons(op(eval_ls(ls[pos-1]), eval_ls(ls[pos+1])), ls[0:pos-1]) + ls[pos+2:])
+        else:
+            raise RuntimeError, "invalid formmula: (%r)" % (ls)
+
+
