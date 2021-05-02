@@ -168,6 +168,13 @@ def eval_ls(ls):
         elif op.is_binary() and 0 < pos < len(ls) - 1:
             return eval_ls(cons(op(eval_ls(ls[pos-1]), eval_ls(ls[pos+1])), ls[0:pos-1]) + ls[pos+2:])
         else:
-            raise RuntimeError, "invalid formmula: (%r)" % (ls)
+            raise RuntimeError("invalid formmula: (%r)" % (ls,))
 
 
+def find_pair(s0):
+    n = 0
+    for i, c in enumerate(s0):
+        if c in '()': n += (1 if c =='('else -1)
+        if n == 0: return i
+    else:
+        raise RuntimeError("Cannot find the close parenthesis!")
