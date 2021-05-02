@@ -122,3 +122,6 @@ L_OP = [\
 H_OP = dict([(str(op), op) for op in L_OP])
 
 
+def convert_op_name(op):
+    return ''.join([(c if c.isalnum() else '\\' + c) for c in str(op)]) + \
+        (r'(?=\W|$)' if op.is_const() else r'(?=[\s\(])' if op.is_func else'')
