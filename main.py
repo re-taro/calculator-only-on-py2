@@ -3,6 +3,7 @@ import math
 import re
 import sys
 import operator
+from functools import reduce
 
 class Operator:
 
@@ -55,3 +56,18 @@ class Operator:
         return self.priority in (Operator.P_POW, Operator.P_MD, Operator.P_BPM)
 
     
+def is_natural(n):
+    return type(n) is int and n >= 0
+
+def fact(n):
+    assert is_natural(n)
+    return reduce(operator.__mul__, range(1, n+1)) if n > 0 else 1
+
+def permutation(m, n):
+    assert is_natural(m) and is_natural(n) and m >= n
+    return reduce(operator.__mul__, range(m - n+1, m+1), 1)
+
+def combination(m, n):
+    assert is_natural(m) and is_natural(n) and m >= n
+    return permutation(m, n)/fact(n)
+
