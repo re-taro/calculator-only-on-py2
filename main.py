@@ -127,12 +127,12 @@ def convert_op_name(op):
         (r'(?=\W|$)' if op.is_const() else r'(?=[\s\(])' if op.is_func else'')
 
 
-RE_FORM =re.compile(\
-    r'''(?P<nest>\() |
-        (?P<num>\d+(?P<after_dot>\.\d+)?(?:[eE][+-]?\d+)?) |
-        (?P<op_name>%%s)
-    '''%('|'.join([ convert_op_name(op) for op in sorted([op for op in L_OP if not op.is_upm()], key=lambda x:len(str(x)), reverse=True)]),),\
-        re.VERBOSE)
+RE_FORM = re.compile( \
+    r'''(?P<nest>\()                                            |   
+        (?P<num>\d+(?P<after_dot>\.\d+)?(?:[eE][+-]?\d+)?)      |   
+        (?P<op_name>%s)                                             
+    ''' % ('|'.join([ convert_op_name(op)  for op in sorted([op for op in L_OP if not op.is_upm()], key=lambda x:len(str(x)), reverse=True)]),), \
+    re.VERBOSE)   
 
 
 def cons(obj, ls):
