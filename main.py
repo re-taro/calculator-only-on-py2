@@ -133,3 +133,21 @@ RE_FORM =re.compile(\
         (?P<op_name>%%s)
     '''%('|'.join([ convert_op_name(op) for op in sorted([op for op in L_OP if not op.is_upm()], key=lambda x:len(str(x)), reverse=True)]),),\
         re.VERBOSE)
+
+
+def cons(obj, ls):
+
+    ls.append(obj)
+    return ls
+
+
+def operator_position(ls):
+
+    tprev, term0, pos = None, None, -1
+    for i, term in enumerate(ls):
+        if isinstance(term, Operator) and (term > term0 or (isinstance(tprev, Operator) and term.is_upm())):
+            term0, pos = term, i
+        tprev = term
+    return term0, pos
+
+
