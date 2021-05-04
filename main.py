@@ -4,6 +4,7 @@ import re
 import sys
 import operator
 from functools import reduce
+import numbers
 
 
 class Operator:
@@ -153,7 +154,7 @@ def operator_position(ls):
 
 def eval_ls(ls):
 
-    if operator.isNumberType(ls): return ls
+    if isinstance(ls, numbers.Number): return ls
     elif len(ls) == 1:
         i = ls[0]
         return eval_ls(i() if isinstance(i, Operator) else i)
